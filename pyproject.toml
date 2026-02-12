@@ -18,8 +18,6 @@ dependencies = [
     "transformers>=4.40.0",
     "accelerate>=0.27.0",
     "bitsandbytes>=0.43.0",
-    "autoawq>=0.2.0",
-    "auto-gptq>=0.7.0",
     "lm-eval>=0.4.0",
     "datasets>=2.18.0",
     "huggingface-hub>=0.22.0",
@@ -27,6 +25,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+quantization = [
+    "autoawq>=0.2.0",
+    "auto-gptq>=0.7.0",
+]
 dev = [
     "pytest>=8.0",
     "ruff>=0.4.0",
