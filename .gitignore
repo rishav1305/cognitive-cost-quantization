@@ -1,0 +1,43 @@
+# Model weights & checkpoints
+*.bin
+*.safetensors
+*.gguf
+*.pt
+*.pth
+checkpoints/
+models/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment & secrets
+.env
+.env.*
+*.key
+setup-claude.js
+
+# Editors & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Experiment tracking
+wandb/
+runs/
+mlruns/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.venv/
