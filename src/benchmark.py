@@ -111,7 +111,7 @@ def _run_single_task(
 
     # Calculate metrics
     peak_vram = get_vram_usage()
-    num_samples = limit if limit else _get_task_size(task_results)
+    num_samples = _get_num_samples(eval_results, task, limit)
     per_sample_latency = total_time / max(num_samples, 1)
 
     return BenchmarkResult(
@@ -156,12 +156,21 @@ def _extract_accuracy(task_results: dict, task: str) -> float:
     return 0.0
 
 
-def _get_task_size(task_results: dict) -> int:
-    """Try to get the number of samples evaluated."""
-    for key in ["num_samples", "num_examples"]:
-        if key in task_results:
-            return int(task_results[key])
-    return 0
+def _get_num_samples(eval_results: dict, task: str, limit: int | None) -> int:
+    """Get the number of samples evaluated from lm-eval output."""
+    if limit:
+        return limit
+    # lm-eval stores sample counts at eval_results["n-samples"][task]
+    n_samples = eval_results.get("n-samples", {})
+    if task in n_samples:
+        return int(n_samples[task])
+    # Fallback: check samples list length
+    samples = eval_results.get("samples", {})
+    if task in samples:
+        return len(samples[task])
+    # Last resort: known dataset sizes
+    known_sizes = {"gsm8k": 1319, "arc_easy": 2376, "arc_challenge": 1172}
+    return known_sizes.get(task, 0)
 
 
 def main() -> None:
